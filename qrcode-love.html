@@ -112,16 +112,15 @@
       top: 0;
       left: 0;
       z-index: 1;
-      filter: drop-shadow(0 0 15px rgba(255, 117, 140, 0.4));
+      filter: drop-shadow(0 0 20px rgba(255, 117, 140, 0.5));
     }
 
     .qr-canvas-box {
       position: relative;
       z-index: 2;
       background: #ffffff;
-      padding: 16px;
-      border-radius: 24px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      padding: 12px;
+      box-shadow: inset 0 0 20px rgba(255, 117, 140, 0.2);
       clip-path: path("M 125 240 C 125 240 10 165 10 90 C 10 40 45 10 85 10 C 108 10 120 25 125 35 C 130 25 142 10 165 10 C 205 10 240 40 240 90 C 240 165 125 240 125 240 Z");
       width: 250px;
       height: 250px;
@@ -130,9 +129,17 @@
       justify-content: center;
     }
 
-    #qrcode-canvas {
+    #qrcode-display {
       width: 220px;
       height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #qrcode-display img, #qrcode-display canvas {
+      width: 220px !important;
+      height: 220px !important;
     }
 
     .scan-text {
@@ -204,13 +211,13 @@
               <stop offset="100%" stop-color="#7928ca" />
             </linearGradient>
           </defs>
-          <path fill="none" stroke="url(#heartGrad)" stroke-width="4"
+          <path fill="none" stroke="url(#heartGrad)" stroke-width="5"
             d="M 130 248 C 130 248 12 170 12 92 C 12 40 48 10 90 10 C 114 10 125 25 130 36 C 135 25 146 10 170 10 C 212 10 248 40 248 92 C 248 170 130 248 130 248 Z" />
         </svg>
 
         <!-- High-Contrast Scannable Heart-Clipped QR -->
         <div class="qr-canvas-box">
-          <canvas id="qrcode-canvas"></canvas>
+          <div id="qrcode-display"></div>
         </div>
       </div>
 
@@ -227,42 +234,16 @@
 
   <script>
     const targetUrl = "https://aryapulosari-design.github.io/aldza-ulangtahun/";
-    const canvas = document.getElementById("qrcode-canvas");
-    canvas.width = 440;
-    canvas.height = 440;
-    const ctx = canvas.getContext("2d");
+    const qrDisplay = document.getElementById("qrcode-display");
 
-    // Hidden temporary container for QRCode.js generator
-    const tempDiv = document.createElement("div");
-
-    const qrcode = new QRCode(tempDiv, {
+    new QRCode(qrDisplay, {
       text: targetUrl,
-      width: 440,
-      height: 440,
-      colorDark: "#220022",
+      width: 220,
+      height: 220,
+      colorDark: "#b8004b", // Beautiful dark magenta/pink for high contrast & scannability
       colorLight: "#ffffff",
       correctLevel: QRCode.CorrectLevel.H
     });
-
-    // Render custom styled QR Code onto canvas
-    setTimeout(() => {
-      const qrImg = tempDiv.querySelector("canvas") || tempDiv.querySelector("img");
-      if (qrImg) {
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, 440, 440);
-        ctx.drawImage(qrImg, 0, 0, 440, 440);
-
-        // Overlay a subtle pink heart gradient on QR modules while maintaining high scannability
-        ctx.globalCompositeOperation = "source-atop";
-        const grad = ctx.createLinearGradient(0, 0, 440, 440);
-        grad.addColorStop(0, "#d80058");
-        grad.addColorStop(0.5, "#900055");
-        grad.addColorStop(1, "#330033");
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, 440, 440);
-        ctx.globalCompositeOperation = "source-over";
-      }
-    }, 300);
 
     // Floating background hearts
     const heartsBg = document.getElementById("hearts-bg");
