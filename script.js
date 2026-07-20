@@ -155,10 +155,10 @@ function initializeSections() {
 function setupTheme() {
   const toggleBtn = document.getElementById("dark-mode-toggle");
   const activeTheme = localStorage.getItem("theme") || "dark";
-  
+
   document.documentElement.setAttribute("data-theme", activeTheme);
   updateThemeIcon(activeTheme);
-  
+
   toggleBtn.addEventListener("click", () => {
     const currentTheme = document.documentElement.getAttribute("data-theme");
     const nextTheme = currentTheme === "dark" ? "light" : "dark";
@@ -190,7 +190,7 @@ function updateThemeIcon(theme) {
 // --- SYSTEM B: AMBIENT MOUSE GLOW TRACKER ---
 function setupMouseGlow() {
   const glow = document.getElementById("mouse-glow");
-  
+
   window.addEventListener("mousemove", (e) => {
     // Apple-style ambient glow moves instantly with mouse
     glow.style.left = `${e.clientX}px`;
@@ -201,11 +201,11 @@ function setupMouseGlow() {
 // --- SYSTEM C: AMBIENT FLOATING PARTICLES CANVAS ---
 function setupClickParticles() {
   const container = document.getElementById("floating-clicks-container");
-  
+
   // Clicking anywhere generates beautiful floating hearts
   window.addEventListener("click", (e) => {
     if (e.target.closest("button") || e.target.closest("a") || e.target.closest("#game-canvas")) return;
-    
+
     createClickHeart(e.clientX, e.clientY);
   });
 }
@@ -222,19 +222,19 @@ function createClickHeart(x, y) {
   heart.style.fontSize = `${Math.random() * 15 + 15}px`;
   heart.style.opacity = "1";
   heart.style.transition = "transform 1.2s cubic-bezier(0.1, 0.8, 0.3, 1), opacity 1.2s";
-  
+
   document.body.appendChild(heart);
-  
+
   // Trigger animations in parallel thread (NVIDIA style rendering)
   setTimeout(() => {
     const driftX = (Math.random() - 0.5) * 150;
     const driftY = -150 - Math.random() * 100;
     const rotate = (Math.random() - 0.5) * 90;
-    
+
     heart.style.transform = `translate3d(${driftX}px, ${driftY}px, 0) rotate(${rotate}deg) scale(1.5)`;
     heart.style.opacity = "0";
   }, 10);
-  
+
   setTimeout(() => heart.remove(), 1300);
 }
 
@@ -254,7 +254,7 @@ class AmbientParticle {
   constructor() {
     this.reset();
   }
-  
+
   reset() {
     this.x = Math.random() * canvas.width;
     this.y = canvas.height + Math.random() * 100;
@@ -266,22 +266,22 @@ class AmbientParticle {
     this.angle = Math.random() * 360;
     this.spin = (Math.random() - 0.5) * 0.02;
   }
-  
+
   update() {
     this.y += this.speedY;
     this.x += this.speedX;
     this.angle += this.spin;
-    
+
     if (this.y < -20) {
       this.reset();
     }
   }
-  
+
   draw() {
     ctx.save();
     ctx.globalAlpha = this.opacity;
     ctx.translate(this.x, this.y);
-    
+
     if (this.type === "blossom") {
       ctx.rotate(this.angle);
       ctx.fillStyle = "rgba(255, 182, 193, 0.7)"; // soft pink petal
@@ -322,7 +322,7 @@ function setupCountdown() {
   const targetISO = appData.birthday.targetISO;
   const targetDate = new Date(targetISO);
   const lockScreen = document.getElementById("lock-screen");
-  
+
   const typingTexts = [
     `Hari spesial untuk ${appData.birthday.name} segera tiba! 💖`,
     "Semoga kamu menyukai kejutan ini...",
@@ -330,21 +330,21 @@ function setupCountdown() {
     "Selamanya, hanya kamu... 🌸"
   ];
   setupTyping(typingTexts);
-  
+
   function updateClock() {
     const now = new Date();
     const diff = targetDate - now;
-    
+
     // Check for dev mode in URL (?dev=true) to bypass lock
     const urlParams = new URLSearchParams(window.location.search);
     const isDev = urlParams.get('dev') === 'true';
-    
+
     if (diff <= 0 || isDev) {
       // Unlock website
       document.body.classList.remove("locked");
       document.documentElement.classList.remove("locked");
       if (lockScreen) lockScreen.classList.add("hidden");
-      
+
       if (diff <= 0) {
         // Countdown complete! Trigger Surprise
         clearInterval(countdownInterval);
@@ -357,17 +357,17 @@ function setupCountdown() {
       document.documentElement.classList.add("locked");
       if (lockScreen) lockScreen.classList.remove("hidden");
     }
-    
+
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    
+
     flipDigit("days-unit", days);
     flipDigit("hours-unit", hours);
     flipDigit("minutes-unit", minutes);
     flipDigit("seconds-unit", seconds);
-    
+
     // Update lock screen countdown
     if (document.getElementById("lock-days")) {
       document.getElementById("lock-days").textContent = String(days).padStart(2, '0');
@@ -376,7 +376,7 @@ function setupCountdown() {
       document.getElementById("lock-seconds").textContent = String(seconds).padStart(2, '0');
     }
   }
-  
+
   updateClock();
   countdownInterval = setInterval(updateClock, 1000);
 }
@@ -386,12 +386,12 @@ function flipDigit(unitId, value) {
   const formattedVal = String(value).padStart(2, "0");
   const topCard = unit.querySelector(".card-top");
   const bottomCard = unit.querySelector(".card-bottom");
-  
+
   if (topCard.textContent !== formattedVal) {
     // Perform smooth digit scaling flip
     topCard.style.transform = "rotateX(-90deg)";
     topCard.style.transition = "transform 0.3s ease-in";
-    
+
     setTimeout(() => {
       topCard.textContent = formattedVal;
       bottomCard.textContent = formattedVal;
@@ -407,10 +407,10 @@ function setupTyping(lines) {
   let lineIdx = 0;
   let charIdx = 0;
   let isDeleting = false;
-  
+
   function type() {
     const currentLine = lines[lineIdx];
-    
+
     if (isDeleting) {
       el.textContent = currentLine.substring(0, charIdx - 1);
       charIdx--;
@@ -418,9 +418,9 @@ function setupTyping(lines) {
       el.textContent = currentLine.substring(0, charIdx + 1);
       charIdx++;
     }
-    
+
     let typeSpeed = isDeleting ? 40 : 80;
-    
+
     if (!isDeleting && charIdx === currentLine.length) {
       typeSpeed = 2000; // Pause at end of line
       isDeleting = true;
@@ -429,10 +429,10 @@ function setupTyping(lines) {
       lineIdx = (lineIdx + 1) % lines.length;
       typeSpeed = 500; // Pause before typing new line
     }
-    
+
     setTimeout(type, typeSpeed);
   }
-  
+
   type();
 }
 
@@ -440,28 +440,28 @@ function setupTyping(lines) {
 function triggerSurprise() {
   if (isBirthdayPassed) return;
   isBirthdayPassed = true;
-  
+
   // Hide countdown, reveal unlocked surprise layout
   document.getElementById("countdown-wrapper").classList.add("hidden-element");
-  
+
   const unlockedSec = document.getElementById("unlocked-surprise");
   unlockedSec.classList.remove("hidden-element");
-  
+
   document.getElementById("surprise-title").textContent = appData.birthday.surpriseHeading;
   document.getElementById("surprise-subtitle").textContent = appData.birthday.surpriseSubheading;
-  
+
   // Trigger full screen visual explosion overlay
   const overlay = document.getElementById("surprise-overlay");
   overlay.classList.remove("hidden-element");
-  
+
   // Play ambient audio if possible (usually blocked until click, but Vercel logic is ready)
   const player = document.getElementById("music-player");
   player.classList.add("playing");
-  
+
   // Start Fireworks and Confetti
   startFireworks();
   releaseBalloons();
-  
+
   // Close surprise overlay trigger
   document.getElementById("btn-close-surprise").addEventListener("click", () => {
     overlay.classList.add("hidden-element");
@@ -483,7 +483,7 @@ function startFireworks() {
   resizeFireworksCanvas();
   window.addEventListener("resize", resizeFireworksCanvas);
   animateFireworks();
-  
+
   // Launch periodic rockets
   fireworksInterval = setInterval(() => {
     if (!fireworksActive) return;
@@ -507,7 +507,7 @@ function launchRocket() {
   const startY = fireworksCanvas.height;
   const targetX = Math.random() * fireworksCanvas.width;
   const targetY = Math.random() * (fireworksCanvas.height * 0.5) + 50;
-  
+
   fwParticles.push({
     x: startX,
     y: startY,
@@ -541,53 +541,53 @@ function explodeRocket(x, y, color) {
 
 function animateFireworks() {
   if (!fireworksActive) return;
-  
+
   fwCtx.fillStyle = "rgba(5, 4, 10, 0.2)";
   fwCtx.fillRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
-  
+
   for (let i = fwParticles.length - 1; i >= 0; i--) {
     const p = fwParticles[i];
-    
+
     if (p.isRocket) {
       const dx = p.targetX - p.x;
       const dy = p.targetY - p.y;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-      
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
       if (dist < 10) {
         explodeRocket(p.x, p.y, p.color);
         fwParticles.splice(i, 1);
         continue;
       }
-      
+
       p.x += Math.cos(p.angle) * p.speed;
       p.y += Math.sin(p.angle) * p.speed;
-      
+
       // Draw rocket trail
       fwCtx.fillStyle = p.color;
       fwCtx.beginPath();
-      fwCtx.arc(p.x, p.y, 3, 0, Math.PI*2);
+      fwCtx.arc(p.x, p.y, 3, 0, Math.PI * 2);
       fwCtx.fill();
     } else {
       p.x += p.vx;
       p.y += p.vy;
       p.vy += 0.08; // gravity
       p.alpha -= p.decay;
-      
+
       if (p.alpha <= 0) {
         fwParticles.splice(i, 1);
         continue;
       }
-      
+
       fwCtx.save();
       fwCtx.globalAlpha = p.alpha;
       fwCtx.fillStyle = p.color;
       fwCtx.beginPath();
-      fwCtx.arc(p.x, p.y, 2, 0, Math.PI*2);
+      fwCtx.arc(p.x, p.y, 2, 0, Math.PI * 2);
       fwCtx.fill();
       fwCtx.restore();
     }
   }
-  
+
   requestAnimationFrame(animateFireworks);
 }
 
@@ -597,10 +597,10 @@ function releaseBalloons() {
     setTimeout(() => {
       const balloon = document.createElement("div");
       balloon.className = "floating-balloon";
-      
+
       const colors = ["#ff9aa2", "#ffb7b2", "#ffdac1", "#e2f0cb", "#b5ead7", "#c7ceea"];
       const color = colors[Math.floor(Math.random() * colors.length)];
-      
+
       balloon.style.left = `${Math.random() * 90 + 5}vw`;
       balloon.style.bottom = `-100px`;
       balloon.style.background = color;
@@ -611,7 +611,7 @@ function releaseBalloons() {
       balloon.style.boxShadow = "inset -5px -5px 10px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.1)";
       balloon.style.transition = "transform 6s linear, opacity 6s";
       balloon.style.zIndex = "9997";
-      
+
       // Balloon string
       const string = document.createElement("div");
       string.style.width = "2px";
@@ -622,13 +622,13 @@ function releaseBalloons() {
       string.style.left = "50%";
       string.style.transform = "translateX(-50%)";
       balloon.appendChild(string);
-      
+
       document.body.appendChild(balloon);
-      
+
       setTimeout(() => {
         balloon.style.transform = `translateY(-120vh) rotate(${(Math.random() - 0.5) * 45}deg)`;
       }, 50);
-      
+
       setTimeout(() => balloon.remove(), 7000);
     }, i * 300);
   }
@@ -639,13 +639,13 @@ function setupTimeline() {
   const track = document.getElementById("timeline-track");
   const prevBtn = document.getElementById("timeline-prev");
   const nextBtn = document.getElementById("timeline-next");
-  
+
   track.innerHTML = ""; // Clear placeholders
-  
+
   appData.timeline.forEach((moment) => {
     const card = document.createElement("div");
     card.className = "timeline-card glass-card";
-    
+
     // Use fallback gradient background if image load fails
     card.innerHTML = `
       <img src="${moment.image}" class="timeline-img" alt="${moment.title}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22350%22 height=%22220%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22url(%23g)%22/><defs><linearGradient id=%22g%22 x1=%220%25%22 y1=%220%25%22 x2=%22100%25%22 y2=%22100%25%22><stop offset=%220%25%22 stop-color=%22%23ffb7b2%22/><stop offset=%22100%25%22 stop-color=%22%23c7ceea%22/></linearGradient></defs></svg>'">
@@ -657,30 +657,30 @@ function setupTimeline() {
     `;
     track.appendChild(card);
   });
-  
+
   // Timeline arrow navigations
   prevBtn.addEventListener("click", () => {
     track.scrollBy({ left: -380, behavior: "smooth" });
   });
-  
+
   nextBtn.addEventListener("click", () => {
     track.scrollBy({ left: 380, behavior: "smooth" });
   });
-  
+
   // Horizontal drag interactions
   let isDown = false;
   let startX;
   let scrollLeft;
-  
+
   track.addEventListener("mousedown", (e) => {
     isDown = true;
     startX = e.pageX - track.offsetLeft;
     scrollLeft = track.scrollLeft;
   });
-  
+
   track.addEventListener("mouseleave", () => isDown = false);
   track.addEventListener("mouseup", () => isDown = false);
-  
+
   track.addEventListener("mousemove", (e) => {
     if (!isDown) return;
     e.preventDefault();
@@ -696,15 +696,15 @@ function setupLoveMeter() {
   const percentText = document.getElementById("love-percentage");
   const labelText = document.getElementById("love-label");
   const boostBtn = document.getElementById("btn-boost-love");
-  
+
   let percentage = 0;
   let targetPercentage = 100;
   let boostCount = 0;
-  
+
   // Set initial circular stroke configuration
   const perimeter = 2 * Math.PI * 40; // r=40
   fill.style.strokeDasharray = perimeter;
-  
+
   function updateProgress() {
     if (boostCount >= 5) {
       percentText.textContent = "∞";
@@ -714,42 +714,42 @@ function setupLoveMeter() {
       boostBtn.textContent = "Udah Penuh Bangettt! 💥";
       return;
     }
-    
+
     if (percentage < targetPercentage) {
       percentage += 1;
       const offset = perimeter - (percentage / 100) * perimeter;
       fill.style.strokeDashoffset = offset;
-      
+
       // Format number elegantly like 1.000.000%
       const val = (percentage * 10000).toLocaleString("id-ID") + "%";
       percentText.textContent = val;
-      
-      labelText.textContent = percentage < 40 ? "Masih Malu-malu 🙈" : 
-                              percentage < 80 ? "Sayang Banget!! 🥰" : "Sayang Maksimal!!! 💖";
-                              
+
+      labelText.textContent = percentage < 40 ? "Masih Malu-malu 🙈" :
+        percentage < 80 ? "Sayang Banget!! 🥰" : "Sayang Maksimal!!! 💖";
+
       requestAnimationFrame(updateProgress);
     }
   }
-  
+
   // Triggers after loading
   setTimeout(() => {
     updateProgress();
   }, 1000);
-  
+
   boostBtn.addEventListener("click", () => {
     boostCount++;
     createClickHeart(boostBtn.getBoundingClientRect().left + 40, boostBtn.getBoundingClientRect().top - 20);
-    
+
     if (boostCount >= 5) {
       targetPercentage = 100;
       percentage = 100;
       updateProgress();
-      
+
       // Spawn explosive balloons
       releaseBalloons();
       return;
     }
-    
+
     targetPercentage += 20;
     updateProgress();
   });
@@ -759,41 +759,41 @@ function setupReasons() {
   const card = document.getElementById("reason-card");
   const numText = document.getElementById("reason-number");
   const contentText = document.getElementById("reason-text");
-  
+
   const prevBtn = document.getElementById("btn-reason-prev");
   const nextBtn = document.getElementById("btn-reason-next");
   const randomBtn = document.getElementById("btn-reason-random");
-  
+
   let activeIndex = 0;
   const reasons = appData.reasons;
-  
+
   function showReason(index, direction = "next") {
     card.classList.remove("fade-in-left", "fade-in-right");
     card.classList.add(direction === "next" ? "fade-out-left" : "fade-out-right");
-    
+
     setTimeout(() => {
       numText.textContent = index + 1;
       contentText.textContent = reasons[index];
-      
+
       card.classList.remove("fade-out-left", "fade-out-right");
       card.classList.add(direction === "next" ? "fade-in-right" : "fade-in-left");
     }, 300);
   }
-  
+
   // Show initial reason
   numText.textContent = "1";
   contentText.textContent = reasons[0];
-  
+
   nextBtn.addEventListener("click", () => {
     activeIndex = (activeIndex + 1) % reasons.length;
     showReason(activeIndex, "next");
   });
-  
+
   prevBtn.addEventListener("click", () => {
     activeIndex = (activeIndex - 1 + reasons.length) % reasons.length;
     showReason(activeIndex, "prev");
   });
-  
+
   randomBtn.addEventListener("click", () => {
     activeIndex = Math.floor(Math.random() * reasons.length);
     showReason(activeIndex, "next");
@@ -806,55 +806,55 @@ function setupGallery() {
   const lightbox = document.getElementById("lightbox");
   const lightboxImg = document.getElementById("lightbox-img");
   const lightboxCap = document.getElementById("lightbox-caption");
-  
+
   let currentImgIdx = 0;
   const items = appData.gallery;
-  
+
   grid.innerHTML = ""; // Clear placeholders
-  
+
   items.forEach((item, index) => {
     const galleryItem = document.createElement("div");
     galleryItem.className = "gallery-item";
-    
+
     galleryItem.innerHTML = `
-      <img src="${item.image}" alt="Kenangan ${index+1}" loading="lazy" onerror="this.parentElement.style.display='none';">
+      <img src="${item.image}" alt="Kenangan ${index + 1}" loading="lazy" onerror="this.parentElement.style.display='none';">
       <div class="gallery-caption">
         <p>${item.caption}</p>
       </div>
     `;
-    
+
     galleryItem.addEventListener("click", () => {
       currentImgIdx = index;
       openLightbox(index);
     });
-    
+
     grid.appendChild(galleryItem);
   });
-  
+
   function openLightbox(index) {
     lightboxImg.src = items[index].image;
     lightboxCap.textContent = items[index].caption;
     lightbox.classList.remove("hidden-element");
     lightbox.setAttribute("aria-hidden", "false");
   }
-  
+
   document.getElementById("lightbox-close").addEventListener("click", () => {
     lightbox.classList.add("hidden-element");
     lightbox.setAttribute("aria-hidden", "true");
   });
-  
+
   document.getElementById("lightbox-prev").addEventListener("click", () => {
     currentImgIdx = (currentImgIdx - 1 + items.length) % items.length;
     lightboxImg.src = items[currentImgIdx].image;
     lightboxCap.textContent = items[currentImgIdx].caption;
   });
-  
+
   document.getElementById("lightbox-next").addEventListener("click", () => {
     currentImgIdx = (currentImgIdx + 1) % items.length;
     lightboxImg.src = items[currentImgIdx].image;
     lightboxCap.textContent = items[currentImgIdx].caption;
   });
-  
+
   // Close lightbox on clicking background overlay
   lightbox.addEventListener("click", (e) => {
     if (e.target === lightbox) {
@@ -868,11 +868,11 @@ function setupGallery() {
 function setupLetters() {
   const container = document.getElementById("envelopes-container");
   container.innerHTML = "";
-  
+
   appData.letters.forEach((letter, index) => {
     const wrapper = document.createElement("div");
     wrapper.className = "envelope-wrapper";
-    
+
     wrapper.innerHTML = `
       <div class="envelope-card">
         <div class="envelope-front">
@@ -882,32 +882,32 @@ function setupLetters() {
         </div>
       </div>
     `;
-    
+
     wrapper.addEventListener("click", () => {
       openLetterModal(letter);
     });
-    
+
     container.appendChild(wrapper);
   });
-  
+
   const modal = document.getElementById("letter-modal");
   const modalTitle = document.getElementById("modal-letter-title");
   const modalContent = document.getElementById("modal-letter-content");
-  
+
   let typingTimer = null;
-  
+
   function openLetterModal(letter) {
     sfxManager.play('paper');
     modalTitle.textContent = letter.title;
     modalContent.textContent = "";
     modal.classList.remove("hidden-element");
-    
+
     // Typewriter effect on opening
     let charIdx = 0;
     const text = letter.content;
-    
+
     if (typingTimer) clearInterval(typingTimer);
-    
+
     typingTimer = setInterval(() => {
       modalContent.textContent += text.charAt(charIdx);
       charIdx++;
@@ -916,7 +916,7 @@ function setupLetters() {
       }
     }, 30);
   }
-  
+
   document.getElementById("btn-close-letter").addEventListener("click", () => {
     modal.classList.add("hidden-element");
     if (typingTimer) clearInterval(typingTimer);
@@ -927,41 +927,41 @@ function setupLetters() {
 function setupGiftBox() {
   const box = document.getElementById("gift-box-3d");
   const paperContainer = document.getElementById("scroll-letter-container");
-  
+
   // 3D Tilt orientation (Apple Style)
   const stage = document.querySelector(".gift-box-stage");
   stage.addEventListener("mousemove", (e) => {
     if (box.classList.contains("open")) return;
-    
+
     const rect = stage.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width/2;
-    const y = e.clientY - rect.top - rect.height/2;
-    
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+
     // Limit rotation angle
     const rotX = -y / 4;
     const rotY = x / 4;
-    
+
     box.style.transform = `rotateX(${rotX - 20}deg) rotateY(${rotY + 45}deg)`;
   });
-  
+
   stage.addEventListener("mouseleave", () => {
     if (box.classList.contains("open")) return;
     box.style.transform = "rotateX(-20deg) rotateY(45deg)";
   });
-  
+
   // Click open action
   box.addEventListener("click", () => {
     if (box.classList.contains("open")) return;
-    
+
     sfxManager.play('gift');
     box.classList.add("open");
-    
+
     // Release explosive balloons & click heart particles
     releaseBalloons();
     for (let i = 0; i < 15; i++) {
-      createClickHeart(window.innerWidth/2 + (Math.random() - 0.5) * 200, window.innerHeight/2 + (Math.random() - 0.5) * 200);
+      createClickHeart(window.innerWidth / 2 + (Math.random() - 0.5) * 200, window.innerHeight / 2 + (Math.random() - 0.5) * 200);
     }
-    
+
     // Unfold dynamic long letter
     setTimeout(() => {
       renderLongLetter();
@@ -975,16 +975,16 @@ function renderLongLetter() {
   const greet = document.getElementById("scroll-letter-greeting");
   const paragraphs = document.getElementById("scroll-letter-paragraphs");
   const closing = document.getElementById("scroll-letter-closing");
-  
+
   greet.textContent = appData.longLetter.greeting;
   paragraphs.innerHTML = "";
-  
+
   appData.longLetter.paragraphs.forEach(para => {
     const p = document.createElement("p");
     p.textContent = para;
     paragraphs.appendChild(p);
   });
-  
+
   closing.textContent = appData.longLetter.closing;
 }
 
@@ -993,14 +993,14 @@ function setupEndingSection() {
   const canvas = document.getElementById("stars-canvas");
   const ctx = canvas.getContext("2d");
   let stars = [];
-  
+
   function resizeStars() {
     canvas.width = canvas.parentElement.offsetWidth;
     canvas.height = canvas.parentElement.offsetHeight;
   }
   resizeStars();
   window.addEventListener("resize", resizeStars);
-  
+
   class Star {
     constructor() {
       this.x = Math.random() * canvas.width;
@@ -1010,7 +1010,7 @@ function setupEndingSection() {
       this.speed = Math.random() * 0.02 + 0.005;
       this.growing = Math.random() > 0.5;
     }
-    
+
     update() {
       if (this.growing) {
         this.alpha += this.speed;
@@ -1020,19 +1020,19 @@ function setupEndingSection() {
         if (this.alpha <= 0.2) this.growing = true;
       }
     }
-    
+
     draw() {
       ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       ctx.fill();
     }
   }
-  
+
   for (let i = 0; i < 80; i++) {
     stars.push(new Star());
   }
-  
+
   function animateStars() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     stars.forEach(star => {
@@ -1042,42 +1042,42 @@ function setupEndingSection() {
     requestAnimationFrame(animateStars);
   }
   animateStars();
-  
+
   // Virtual hugs & kisses counters
   let hugCount = parseInt(localStorage.getItem("hugs") || "0");
   let kissCount = parseInt(localStorage.getItem("kisses") || "0");
-  
+
   const hugText = document.getElementById("hug-count");
   const kissText = document.getElementById("kiss-count");
-  
+
   hugText.textContent = hugCount;
   kissText.textContent = kissCount;
-  
+
   document.getElementById("btn-virtual-hug").addEventListener("click", () => {
     hugCount++;
     localStorage.setItem("hugs", hugCount);
     hugText.textContent = hugCount;
-    
+
     // Heart float animation
-    createClickHeart(window.innerWidth/2, window.innerHeight - 300);
+    createClickHeart(window.innerWidth / 2, window.innerHeight - 300);
     showFloatingCenterNotification("🤗 Pelukan Virtual Terkirim!");
   });
-  
+
   document.getElementById("btn-virtual-kiss").addEventListener("click", () => {
     kissCount++;
     localStorage.setItem("kisses", kissCount);
     kissText.textContent = kissCount;
-    
-    createClickHeart(window.innerWidth/2, window.innerHeight - 300);
+
+    createClickHeart(window.innerWidth / 2, window.innerHeight - 300);
     showFloatingCenterNotification("💋 Ciuman Virtual Terkirim!");
   });
-  
+
   // Love quote generator
   const quoteText = document.getElementById("generated-quote");
   document.getElementById("btn-generate-quote").addEventListener("click", () => {
     const quotes = appData.loveQuotes;
     const randQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    
+
     quoteText.style.opacity = 0;
     setTimeout(() => {
       quoteText.textContent = `"${randQuote}"`;
@@ -1103,18 +1103,18 @@ function showFloatingCenterNotification(msg) {
   notif.style.transition = "transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s";
   notif.style.pointerEvents = "none";
   notif.textContent = msg;
-  
+
   document.body.appendChild(notif);
-  
+
   setTimeout(() => {
     notif.style.transform = "translate(-50%, -50%) scale(1)";
   }, 50);
-  
+
   setTimeout(() => {
     notif.style.opacity = "0";
     notif.style.transform = "translate(-50%, -50%) scale(0.8)";
   }, 1500);
-  
+
   setTimeout(() => notif.remove(), 2100);
 }
 
@@ -1132,14 +1132,14 @@ const sfxManager = {
     for (let key in this.sounds) {
       this.sounds[key].preload = "auto";
     }
-    
+
     // Wire up sound-toggle floating button
     const toggleBtn = document.getElementById("sound-toggle");
     if (toggleBtn) {
       toggleBtn.addEventListener("click", () => {
         const isMuted = this.toggle();
         this.updateToggleIcon(isMuted);
-        
+
         // Play a test pop SFX when unmuting so the user gets instant feedback
         if (!isMuted) {
           this.play("click");
@@ -1154,18 +1154,18 @@ const sfxManager = {
     window.addEventListener("click", (e) => {
       // Play click sound if we clicked an interactive element and we are NOT muted
       if (this.muted) return;
-      
+
       const target = e.target;
       if (target.closest(".envelope-wrapper") || target.closest(".gift-box")) {
         // Skip playing standard click sound, they have their own specific sounds
         return;
       }
-      
-      if (target.closest("button") || 
-          target.closest("a") || 
-          target.closest(".nav-arrow") || 
-          target.closest(".control-btn") || 
-          target.closest(".interaction-btn")) {
+
+      if (target.closest("button") ||
+        target.closest("a") ||
+        target.closest(".nav-arrow") ||
+        target.closest(".control-btn") ||
+        target.closest(".interaction-btn")) {
         this.play("click");
       }
     });
@@ -1188,7 +1188,7 @@ const sfxManager = {
   updateToggleIcon(isMuted) {
     const icon = document.getElementById("sound-icon");
     if (!icon) return;
-    
+
     if (isMuted) {
       // Mute icon path
       icon.innerHTML = `<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>`;
@@ -1205,48 +1205,48 @@ function setupMiniGame() {
   const overlay = document.getElementById("game-overlay");
   const canvas = document.getElementById("game-canvas");
   const ctx = canvas.getContext("2d");
-  
+
   const scoreText = document.getElementById("game-score");
   const livesText = document.getElementById("game-lives");
   const highscoreText = document.getElementById("game-highscore");
   const menu = document.getElementById("game-menu");
-  
+
   let score = 0;
   let lives = 3;
   let highscore = parseInt(localStorage.getItem("game_highscore") || "0");
   let gameRunning = false;
   let animationId = null;
-  
+
   // Game parameters
   let basket = { x: 120, y: 310, w: 60, h: 25, speed: 12 };
   let items = [];
   let nextSpawnTime = 0;
-  
+
   highscoreText.textContent = highscore;
-  
+
   // Auto-resize game canvas based on CSS wrapper
   function resizeGameCanvas() {
     canvas.width = canvas.parentElement.offsetWidth;
     canvas.height = canvas.parentElement.offsetHeight;
     basket.y = canvas.height - 40;
   }
-  
+
   trigger.addEventListener("click", () => {
     overlay.classList.remove("hidden-element");
     resizeGameCanvas();
     menu.classList.remove("hidden-element");
   });
-  
+
   document.getElementById("btn-close-game").addEventListener("click", () => {
     overlay.classList.add("hidden-element");
     stopGame();
   });
-  
+
   document.getElementById("btn-start-game").addEventListener("click", () => {
     menu.classList.add("hidden-element");
     startGame();
   });
-  
+
   // Mobile / Desktop Control Listeners
   let activeKeys = {};
   window.addEventListener("keydown", (e) => {
@@ -1255,7 +1255,7 @@ function setupMiniGame() {
   window.addEventListener("keyup", (e) => {
     activeKeys[e.key] = false;
   });
-  
+
   // Touch / Drag controls
   canvas.addEventListener("touchmove", (e) => {
     if (!gameRunning) return;
@@ -1264,7 +1264,7 @@ function setupMiniGame() {
     basket.x = touchX - basket.w / 2;
     keepBasketInBounds();
   });
-  
+
   canvas.addEventListener("mousemove", (e) => {
     if (!gameRunning) return;
     const rect = canvas.getBoundingClientRect();
@@ -1272,20 +1272,20 @@ function setupMiniGame() {
     basket.x = mouseX - basket.w / 2;
     keepBasketInBounds();
   });
-  
+
   // Mobile arrow buttons click
   const leftBtn = document.getElementById("game-btn-left");
   const rightBtn = document.getElementById("game-btn-right");
-  
+
   let leftInterval = null, rightInterval = null;
   leftBtn.addEventListener("mousedown", () => { leftInterval = setInterval(() => { basket.x -= basket.speed; keepBasketInBounds(); }, 30); });
   leftBtn.addEventListener("mouseup", () => clearInterval(leftInterval));
   leftBtn.addEventListener("mouseleave", () => clearInterval(leftInterval));
-  
+
   rightBtn.addEventListener("mousedown", () => { rightInterval = setInterval(() => { basket.x += basket.speed; keepBasketInBounds(); }, 30); });
   rightBtn.addEventListener("mouseup", () => clearInterval(rightInterval));
   rightBtn.addEventListener("mouseleave", () => clearInterval(rightInterval));
-  
+
   // Touch arrow buttons support
   leftBtn.addEventListener("touchstart", (e) => { e.preventDefault(); leftInterval = setInterval(() => { basket.x -= basket.speed; keepBasketInBounds(); }, 30); });
   leftBtn.addEventListener("touchend", () => clearInterval(leftInterval));
@@ -1296,7 +1296,7 @@ function setupMiniGame() {
     if (basket.x < 0) basket.x = 0;
     if (basket.x + basket.w > canvas.width) basket.x = canvas.width - basket.w;
   }
-  
+
   function startGame() {
     score = 0;
     lives = 3;
@@ -1306,19 +1306,19 @@ function setupMiniGame() {
     updateLivesDisplay();
     gameLoop();
   }
-  
+
   function stopGame() {
     gameRunning = false;
     cancelAnimationFrame(animationId);
   }
-  
+
   function updateLivesDisplay() {
     livesText.textContent = "❤".repeat(lives);
   }
-  
+
   function gameLoop() {
     if (!gameRunning) return;
-    
+
     // Keyboard inputs checking
     if (activeKeys["ArrowLeft"] || activeKeys["a"]) {
       basket.x -= basket.speed;
@@ -1327,7 +1327,7 @@ function setupMiniGame() {
       basket.x += basket.speed;
     }
     keepBasketInBounds();
-    
+
     // Spawn drops
     const now = Date.now();
     if (now > nextSpawnTime) {
@@ -1340,10 +1340,10 @@ function setupMiniGame() {
       });
       nextSpawnTime = now + (Math.random() * 800 + 400); // 400ms - 1200ms
     }
-    
+
     // Physics & drawing
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
     // Draw basket
     ctx.fillStyle = "rgba(var(--primary-rgb), 0.7)";
     ctx.strokeStyle = "var(--primary)";
@@ -1352,19 +1352,19 @@ function setupMiniGame() {
     ctx.roundRect(basket.x, basket.y, basket.w, basket.h, 8);
     ctx.fill();
     ctx.stroke();
-    
+
     // Draw items
     for (let i = items.length - 1; i >= 0; i--) {
       const drop = items[i];
       drop.y += drop.speed;
-      
+
       // Draw drops
       ctx.save();
       if (drop.isBomb) {
         ctx.fillStyle = "#111";
         ctx.shadowColor = "#ff758c";
         ctx.beginPath();
-        ctx.arc(drop.x, drop.y, drop.radius, 0, Math.PI*2);
+        ctx.arc(drop.x, drop.y, drop.radius, 0, Math.PI * 2);
         ctx.fill();
         ctx.fillStyle = "#fff";
         ctx.font = "10px sans-serif";
@@ -1375,11 +1375,11 @@ function setupMiniGame() {
         ctx.fillText("💖", drop.x - 8, drop.y + 6);
       }
       ctx.restore();
-      
+
       // Collision checker
-      if (drop.y + drop.radius >= basket.y && 
-          drop.x >= basket.x && 
-          drop.x <= basket.x + basket.w) {
+      if (drop.y + drop.radius >= basket.y &&
+        drop.x >= basket.x &&
+        drop.x <= basket.x + basket.w) {
         // Caught
         if (drop.isBomb) {
           lives--;
@@ -1390,7 +1390,7 @@ function setupMiniGame() {
         } else {
           score += 10;
           scoreText.textContent = score;
-          
+
           if (score > highscore) {
             highscore = score;
             highscoreText.textContent = highscore;
@@ -1400,7 +1400,7 @@ function setupMiniGame() {
         items.splice(i, 1);
         continue;
       }
-      
+
       // Out of bounds checker
       if (drop.y > canvas.height + 20) {
         if (!drop.isBomb) {
@@ -1413,10 +1413,10 @@ function setupMiniGame() {
         items.splice(i, 1);
       }
     }
-    
+
     animationId = requestAnimationFrame(gameLoop);
   }
-  
+
   function endGame() {
     stopGame();
     menu.classList.remove("hidden-element");
@@ -1438,10 +1438,10 @@ function setupMiniGame() {
 function setupScrollSpy() {
   const sections = document.querySelectorAll("section, footer");
   const navLinks = document.querySelectorAll(".nav-link");
-  
+
   window.addEventListener("scroll", () => {
     let currentId = "";
-    
+
     sections.forEach(section => {
       const sectionTop = section.offsetTop;
       const sectionHeight = section.offsetHeight;
@@ -1449,7 +1449,7 @@ function setupScrollSpy() {
         currentId = section.getAttribute("id");
       }
     });
-    
+
     navLinks.forEach(link => {
       link.classList.remove("active");
       if (link.getAttribute("href") === `#${currentId}`) {
@@ -1462,21 +1462,21 @@ function setupScrollSpy() {
 function setupEasterEgg() {
   const eggModal = document.getElementById("easter-egg-modal");
   let keysPressed = {};
-  
+
   // Simultaneous A + L keydown trigger
   window.addEventListener("keydown", (e) => {
     keysPressed[e.key.toLowerCase()] = true;
-    
+
     if (keysPressed["a"] && keysPressed["l"]) {
       // Trigger egg
       eggModal.classList.remove("hidden-element");
     }
   });
-  
+
   window.addEventListener("keyup", (e) => {
     keysPressed[e.key.toLowerCase()] = false;
   });
-  
+
   document.getElementById("btn-close-egg").addEventListener("click", () => {
     eggModal.classList.add("hidden-element");
   });
