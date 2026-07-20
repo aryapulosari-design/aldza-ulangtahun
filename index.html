@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forever 20 — Untuk Aldza Salwatul Aisy 🌸</title>
+  <meta name="description" content="Website ulang tahun interaktif ke-20 untuk Aldza Salwatul Aisy. Penuh cinta, kenangan manis, dan kejutan spesial.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Lock Screen Overlay -->
+  <div id="lock-screen" class="lock-screen-container">
+    <div class="lock-content glass-card">
+      <div class="lock-icon">🔐</div>
+      <h2>Sabar ya, Sayang...</h2>
+      <p>Halaman ini masih dikunci. Balik lagi pas waktu udah menunjuk jam 00:00 WIB di tanggal 26 Juli ya! 🌸</p>
+      <div class="lock-countdown">
+        <div class="time-block">
+          <span id="lock-days">00</span><small>Hari</small>
+        </div>
+        <div class="time-block">
+          <span id="lock-hours">00</span><small>Jam</small>
+        </div>
+        <div class="time-block">
+          <span id="lock-minutes">00</span><small>Menit</small>
+        </div>
+        <div class="time-block">
+          <span id="lock-seconds">00</span><small>Detik</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Layer & Mouse Tracking Effects -->
+  <div id="aurora-bg" class="aurora-container"></div>
+  <div id="mouse-glow" class="mouse-glow-effect"></div>
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Ambient Audio Player (Floating) -->
+  <!-- Sound Toggle Control (Floating) -->
+  <button id="sound-toggle" class="sound-toggle-btn glass-card" aria-label="Toggle Sound" title="Aktifkan/Matikan Suara">
+    <svg id="sound-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+      <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+    </svg>
+  </button>
+
+  <!-- Virtual Floating Hearts Overlay (When Clicked) -->
+  <div id="floating-clicks-container"></div>
+
+  <!-- Header & Navigation -->
+  <header class="main-header glass-card">
+    <div class="header-logo">
+      <span class="logo-text">Forever 20</span>
+      <span class="logo-emoji">🌸</span>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="#home" class="nav-link active">Beranda</a></li>
+        <li><a href="#timeline" class="nav-link">Perjalanan</a></li>
+        <li><a href="#reasons" class="nav-link">Alasanku Mencintaimu</a></li>
+        <li><a href="#gallery" class="nav-link">Galeri</a></li>
+        <li><a href="#letters" class="nav-link">Surat</a></li>
+        <li><a href="#gift" class="nav-link">Hadiah</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <button id="mini-game-trigger" class="action-btn text-btn" title="Main Game">🎮 Game</button>
+      <button id="dark-mode-toggle" class="action-btn icon-btn" aria-label="Toggle Dark Mode" title="Ganti Tema">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+          <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Section 1: Hero & Realtime Flip Countdown -->
+  <section id="home" class="hero-section">
+    <div class="hero-content">
+      <div class="heart-badge glass-card fade-in">
+        <span>❤️ Bersamamu Sejak Awal</span>
+      </div>
+      <h1 class="hero-title text-glow">
+        <span class="highlight-text font-serif">Aldza Salwatul Aisy</span>
+      </h1>
+      <div class="typing-container">
+        <span id="typing-text" class="typing"></span>
+      </div>
+      
+      <!-- Flip Countdown (WIB) -->
+      <div id="countdown-wrapper" class="countdown-container glass-card fade-in">
+        <h2 class="countdown-heading font-serif">Menuju Hari Bahagiamu</h2>
+        
+        <div class="flip-clock">
+          <div class="flip-unit" id="days-unit">
+            <div class="card-container">
+              <div class="card-face card-top">00</div>
+              <div class="card-face card-bottom">00</div>
+            </div>
+            <span class="flip-label">Hari</span>
+          </div>
+          
+          <div class="flip-separator">:</div>
+
+          <div class="flip-unit" id="hours-unit">
+            <div class="card-container">
+              <div class="card-face card-top">00</div>
+              <div class="card-face card-bottom">00</div>
+            </div>
+            <span class="flip-label">Jam</span>
+          </div>
+
+          <div class="flip-separator">:</div>
+
+          <div class="flip-unit" id="minutes-unit">
+            <div class="card-container">
+              <div class="card-face card-top">00</div>
+              <div class="card-face card-bottom">00</div>
+            </div>
+            <span class="flip-label">Menit</span>
+          </div>
+
+          <div class="flip-separator">:</div>
+
+          <div class="flip-unit" id="seconds-unit">
+            <div class="card-container">
+              <div class="card-face card-top">00</div>
+              <div class="card-face card-bottom">00</div>
+            </div>
+            <span class="flip-label">Detik</span>
+          </div>
+        </div>
+        <p class="timezone-note">Waktu dihitung berdasarkan zona waktu WIB (Jakarta)</p>
+      </div>
+
+      <!-- Surprise Unlocked Section (Initially Hidden) -->
+      <div id="unlocked-surprise" class="surprise-unlocked-section hidden-element">
+        <div class="surprise-badge animate-pulse">🎉 SURPRISE UNLOCKED 🎉</div>
+        <h2 id="surprise-title" class="font-serif text-glow">Happy Birthday, Sayang! 🌸</h2>
+        <p id="surprise-subtitle">Hari spesialmu akhirnya tiba. Selamat datang di usia 20.</p>
+        <div class="scroll-down-prompt">
+          <span>Scroll ke bawah untuk kejutan-kejutan selanjutnya</span>
+          <svg class="chevron-down" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Birthday Surprise Dynamic Overlays -->
+  <div id="surprise-overlay" class="surprise-overlay-container hidden-element">
+    <div class="fireworks-canvas-container">
+      <canvas id="fireworks-canvas"></canvas>
+    </div>
+    <div class="surprise-modal glass-card">
+      <span class="modal-emoji">🌸✨</span>
+      <h2>Selamat Ulang Tahun Ke-20!</h2>
+      <p class="surprise-modal-text">Waktu telah mencapai 26 Juli! Selamat ulang tahun untuk cintaku, Aldza Salwatul Aisy. Semoga kebahagiaan abadi selalu menyertaimu.</p>
+      <button id="btn-close-surprise" class="primary-btn">Masuk Ke Website</button>
+    </div>
+  </div>
+
+  <!-- Section 2: Horizontal Timeline -->
+  <section id="timeline" class="section timeline-section">
+    <div class="section-header text-center">
+      <span class="section-subtitle">Kisah Perjalanan</span>
+      <h2 class="section-title font-serif">Momen Indah Kita</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- Drag / Scroll Horizontal Container -->
+    <div class="timeline-container-outer">
+      <div class="timeline-navigation-btns">
+        <button id="timeline-prev" class="nav-arrow" aria-label="Sebelumnya">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <button id="timeline-next" class="nav-arrow" aria-label="Selanjutnya">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+      <div id="timeline-track" class="timeline-track">
+        <!-- Rendered dynamically by script.js -->
+        <div class="timeline-card placeholder-card glass-card">
+          <div class="timeline-img-placeholder"></div>
+          <div class="timeline-card-content">
+            <span class="timeline-date">Loading...</span>
+            <h3>Memuat Kenangan...</h3>
+            <p>Harap tunggu sebentar selagi kenangan kita dipersiapkan.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Love Meter & 100 Reasons -->
+  <section id="reasons" class="section reasons-section">
+    <div class="reasons-layout-wrapper">
+      
+      <!-- Left side: Love Meter -->
+      <div class="love-meter-wrapper glass-card">
+        <h3 class="font-serif">Alat Pengukur Sayang! 🧸</h3>
+        <p class="love-meter-desc">Coba pencet tombolnya terus buat lihat seberapa besar sayangku ke kamu! Hihihi~</p>
+        
+        <div class="meter-container">
+          <div class="meter-ring">
+            <svg viewBox="0 0 100 100" class="ring-svg">
+              <circle cx="50" cy="50" r="40" class="ring-bg"></circle>
+              <circle cx="50" cy="50" r="40" class="ring-fill" id="love-meter-fill"></circle>
+            </svg>
+            <div class="meter-text">
+              <span id="love-percentage">0%</span>
+              <span class="meter-label" id="love-label">Menghitung...</span>
+            </div>
+          </div>
+        </div>
+
+        <button id="btn-boost-love" class="primary-btn pulse-glow">Pencet Aku! 🎈</button>
+      </div>
+
+      <!-- Right side: 100 Reasons Deck -->
+      <div class="reasons-deck-wrapper">
+        <div class="section-header">
+          <span class="section-subtitle">Alasan Mencintaimu</span>
+          <h2 class="section-title font-serif">Alasanku Mencintaimu</h2>
+          <div class="section-line"></div>
+        </div>
+        
+        <div class="card-deck">
+          <div class="card-glow-bg"></div>
+          <div id="reason-card" class="reason-card glass-card">
+            <div class="reason-card-badge">Alasan #<span id="reason-number">1</span></div>
+            <p id="reason-text" class="reason-content font-serif">Loading reason...</p>
+            <div class="card-footer-decor">🌸✨🌸</div>
+          </div>
+        </div>
+
+        <div class="reasons-controls">
+          <button id="btn-reason-prev" class="control-btn border-btn" aria-label="Sebelumnya">Sebelumnya</button>
+          <button id="btn-reason-random" class="control-btn text-btn">Ayam Random 🎲</button>
+          <button id="btn-reason-next" class="control-btn primary-btn" aria-label="Selanjutnya">Selanjutnya</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Section 4: Masonry Gallery & Lightbox -->
+  <section id="gallery" class="section gallery-section">
+    <div class="section-header text-center">
+      <span class="section-subtitle">Memori Visual</span>
+      <h2 class="section-title font-serif">Galeri Foto Terbaik</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- Masonry Container -->
+    <div id="gallery-masonry" class="gallery-masonry-grid">
+      <!-- Injected by script.js -->
+      <div class="gallery-item-placeholder"></div>
+      <div class="gallery-item-placeholder"></div>
+      <div class="gallery-item-placeholder"></div>
+    </div>
+  </section>
+
+  <!-- Lightbox Popup -->
+  <div id="lightbox" class="lightbox-overlay hidden-element" aria-hidden="true" role="dialog">
+    <button id="lightbox-close" class="lightbox-btn close-btn" aria-label="Tutup">&times;</button>
+    <button id="lightbox-prev" class="lightbox-btn arrow-btn left-arrow" aria-label="Sebelumnya">&#10094;</button>
+    <div class="lightbox-content-wrapper">
+      <img id="lightbox-img" src="" alt="Lightbox image">
+      <p id="lightbox-caption" class="lightbox-caption-text"></p>
+    </div>
+    <button id="lightbox-next" class="lightbox-btn arrow-btn right-arrow" aria-label="Selanjutnya">&#10095;</button>
+  </div>
+
+  <!-- Section 5: Small Interactive Letters (Envelopes) -->
+  <section id="letters" class="section letters-section">
+    <div class="section-header text-center">
+      <span class="section-subtitle">Surat Dari Lubuk Hati</span>
+      <h2 class="section-title font-serif">Kotak Amplop Rahasia</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="envelopes-grid" id="envelopes-container">
+      <!-- Injected dynamically by script.js. Structures each letter with front and open interactions -->
+    </div>
+  </section>
+
+  <!-- Interactive Letter Open Overlay -->
+  <div id="letter-modal" class="letter-modal-overlay hidden-element">
+    <div class="letter-paper glass-card">
+      <button id="btn-close-letter" class="close-letter-btn" aria-label="Tutup Surat">&times;</button>
+      <div class="letter-paper-header">
+        <h3 id="modal-letter-title" class="font-serif">Surat Cinta</h3>
+        <div class="letter-paper-divider"></div>
+      </div>
+      <div class="letter-paper-body">
+        <p id="modal-letter-content"></p>
+      </div>
+      <div class="letter-paper-footer">
+        <span>Selamanya untukmu, 💖</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6: Interactive Gift Box Surprise -->
+  <section id="gift" class="section gift-section">
+    <div class="section-header text-center">
+      <span class="section-subtitle">Kado Terakhir</span>
+      <h2 class="section-title font-serif">Kotak Kado Misterius</h2>
+      <div class="section-line"></div>
+      <p class="section-desc">Arahkan kursor atau sentuh kotak di bawah, lalu klik untuk membukanya.</p>
+    </div>
+
+    <div class="gift-box-stage">
+      <div id="gift-box-3d" class="gift-box">
+        <div class="gift-side gift-front"></div>
+        <div class="gift-side gift-back"></div>
+        <div class="gift-side gift-left"></div>
+        <div class="gift-side gift-right"></div>
+        <div class="gift-side gift-top">
+          <div class="ribbon-cross"></div>
+          <div class="ribbon-knot"></div>
+        </div>
+        <div class="gift-side gift-bottom"></div>
+      </div>
+    </div>
+
+    <!-- Long Scroll Letter (Initially hidden, revealed on gift click) -->
+    <div id="scroll-letter-container" class="scroll-letter-container hidden-element">
+      <div class="scroll-paper">
+        <div class="scroll-handle top-handle"></div>
+        <div class="scroll-content">
+          <span class="scroll-stamp">🌸</span>
+          <h2 id="scroll-letter-greeting" class="font-serif">Dear Aldza,</h2>
+          <div id="scroll-letter-paragraphs">
+            <!-- Injected by script.js -->
+          </div>
+          <p id="scroll-letter-closing" class="scroll-closing font-serif"></p>
+        </div>
+        <div class="scroll-handle bottom-handle"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7: Night Sky & Mini-Game & Footer -->
+  <footer id="ending" class="ending-section">
+    <!-- Star Canvas Background for Night Sky -->
+    <canvas id="stars-canvas"></canvas>
+
+    <div class="ending-content">
+      <div class="virtual-interaction-panel glass-card">
+        <h3 class="font-serif">Kirimkan Sesuatu...</h3>
+        <p>Kirimkan pelukan hangat atau ciuman virtual ke layarmu!</p>
+        <div class="interaction-buttons">
+          <button id="btn-virtual-hug" class="interaction-btn secondary-btn">🤗 Pelukan Virtual</button>
+          <button id="btn-virtual-kiss" class="interaction-btn secondary-btn">💋 Ciuman Virtual</button>
+        </div>
+        <div class="interaction-counters">
+          <span>Pelukan terkirim: <strong id="hug-count">0</strong></span>
+          <span>&nbsp;&bull;&nbsp;</span>
+          <span>Ciuman terkirim: <strong id="kiss-count">0</strong></span>
+        </div>
+      </div>
+
+      <div class="quote-generator-panel glass-card">
+        <p id="generated-quote" class="quote-text font-serif">"Klik tombol di bawah untuk mendapatkan kata cinta manis random."</p>
+        <button id="btn-generate-quote" class="primary-btn">Kata Cinta Random ✨</button>
+      </div>
+
+      <!-- Copyright and Footer Credits -->
+      <div class="footer-meta text-center">
+        <div class="footer-divider"></div>
+        <p class="footer-copyright">&copy; 2026. Dibuat dengan cinta untuk Aldza Salwatul Aisy. 🌸</p>
+        <p class="footer-secret-hint">Hint rahasia: Tekan tombol <kbd>A</kbd> + <kbd>L</kbd> bersamaan di keyboard untuk pesan rahasia.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mini Game Overlay ("Tangkap Hatinya") -->
+  <div id="game-overlay" class="game-overlay-container hidden-element">
+    <div class="game-board glass-card">
+      <button id="btn-close-game" class="close-game-btn" aria-label="Tutup Game">&times;</button>
+      <h2 class="font-serif">Tangkap Hati Aldza 💖</h2>
+      <p class="game-instruction">Gunakan tombol <kbd>&larr;</kbd> dan <kbd>&rarr;</kbd> atau seret mangkuk di bawah dengan jari/mouse untuk menangkap hati yang jatuh! Hindari bom tengkorak hitam!</p>
+      
+      <div class="game-stats">
+        <div>Skor: <span id="game-score">0</span></div>
+        <div>Nyawa: <span id="game-lives">❤❤❤</span></div>
+        <div>Skor Tertinggi: <span id="game-highscore">0</span></div>
+      </div>
+
+      <div class="game-canvas-wrapper">
+        <canvas id="game-canvas"></canvas>
+      </div>
+
+      <div class="game-controls-mobile">
+        <button id="game-btn-left" class="game-mobile-arrow">&larr;</button>
+        <button id="game-btn-right" class="game-mobile-arrow">&rarr;</button>
+      </div>
+
+      <div class="game-menu" id="game-menu">
+        <button id="btn-start-game" class="primary-btn pulse-glow">Mulai Game</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Secret Easter Egg Modal -->
+  <div id="easter-egg-modal" class="easter-egg-overlay hidden-element">
+    <div class="easter-egg-content glass-card">
+      <span class="egg-emoji">🥚💖</span>
+      <h2 class="font-serif">Easter Egg Terbuka!</h2>
+      <p class="egg-text">Kamu telah menemukan rahasia kecil kita! Kamulah alasan terbesar mengapa dunia ini terasa indah bagi diriku. Terima kasih sudah selalu menjadi jangkar dalam hidupku. Aku mencintaimu selamanya.</p>
+      <button id="btn-close-egg" class="primary-btn">Tutup Rahasia</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+{
+  "birthday": {
+    "targetISO": "2026-07-26T00:00:00+07:00",
+    "name": "Aldza Salwatul Aisy",
+    "age": 20,
+    "surpriseHeading": "Happy Birthday, Sayang! 🌸✨",
+    "surpriseSubheading": "Selamat ulang tahun yang ke-20 untuk kamu yang selalu bikin hari-hariku jadi jauh lebih indah."
+  },
+  "timeline": [
+    {
+      "date": "Pertama Kali Kenal",
+      "title": "📸 Fotbar Pertama Kita 🌸",
+      "story": "Foto ini jadi saksi momen pertama kita mengabadikan kenangan bersama. Mungkin bagi orang lain ini cuma sebuah foto biasa, tapi buat aku, ini adalah awal dari banyak cerita yang ingin terus kita ciptakan.<br><br>Masih ingat rasanya waktu itu? Ada sedikit canggung, sedikit malu, tapi di balik senyum yang kita tampilkan, ternyata ada perasaan yang pelan-pelan mulai tumbuh. Siapa sangka, dari satu foto sederhana itu, sekarang kita sudah punya begitu banyak kenangan indah yang nggak akan pernah bisa aku lupakan.<br><br>Setiap kali aku melihat foto ini, aku selalu tersenyum. Karena dari sinilah semuanya terasa semakin nyata. Terima kasih sudah mau berdiri di sampingku waktu itu, dan semoga sampai kapan pun, posisi itu tetap jadi tempatmu.",
+      "image": "assets/images/timeline-1.jpg"
+    },
+    {
+      "date": "First Date",
+      "title": "Tawa Bersama yang Pertama ☕",
+      "story": "Waktu pertama kali kita nongkrong bareng di kafe. Kita ngobrol dan ketawa lepas tanpa beban sama sekali. Di situ aku langsung ngerasa nyaman banget, kayak nemu tempat pulang yang paling pas.",
+      "image": "assets/images/timeline-2.jpg"
+    },
+    {
+      "date": "Ngelewatin Masalah",
+      "title": "Kita yang Saling Nguatin 💪",
+      "story": "Pas kita lagi ngadepin hari-hari yang berat. Hubungan kita emang gak selalu mulus, tapi karena ada kamu yang selalu ngedukung dan nemenin, semua masalah rasanya jadi jauh lebih ringan.",
+      "image": "assets/images/timeline-3.jpg"
+    },
+    {
+      "date": "Jalan-Jalan Seru",
+      "title": "Petualangan Kita 🗺️",
+      "story": "Momen kita jalan-jalan bareng. Capek, kadang nyasar, tapi seru banget karena perginya sama kamu. Setiap sudut tempat yang kita lewati selalu punya cerita manis sendiri.",
+      "image": "assets/images/timeline-4.jpg"
+    },
+    {
+      "date": "Masa Depan",
+      "title": "Bareng Kamu Terus 💍",
+      "story": "Mulai hari ini, besok, dan seterusnya, aku pengen terus bareng kamu. Berjuang dan tumbuh bareng kamu adalah keputusan paling bahagia yang pernah aku ambil.",
+      "image": "assets/images/timeline-5.jpg"
+    }
+  ],
+  "gallery": [
+    { "image": "assets/images/gallery-1.jpg", "caption": "Senyum kamu yang paling bikin hati aku tenang. Cantik banget deh." },
+    { "image": "assets/images/gallery-2.jpg", "caption": "Ekspresi bahagia kamu waktu nerima kejutan, manis banget sumpah." },
+    { "image": "assets/images/gallery-3.jpg", "caption": "Aura kamu di sini tuh hangat banget, bikin betah ngeliatnya." },
+    { "image": "assets/images/gallery-4.jpg", "caption": "Vibes santai di alam terbuka, cocok banget sama kamu yang suka damai." },
+    { "image": "assets/images/gallery-5.jpg", "caption": "Cantikmu yang natural, yang selalu bikin aku bersyukur punya kamu." },
+    { "image": "assets/images/gallery-6.jpg", "caption": "Cantik banget di tengah taman bunga, senyummu ngalahin semua bunganya. 🌸" },
+    { "image": "assets/images/gallery-7.jpg", "caption": "Senyum manis yang selalu bikin hari aku jadi lebih cerah. 💖" },
+    { "image": "assets/images/gallery-8.jpg", "caption": "Pose andalanmu di taman bunga, cantik dan percaya diri banget! ✨" }
+  ],
+  "letters": [
+    {
+      "title": "Dari Hatiku",
+      "teaser": "Surat kecil pas kamu lagi capek...",
+      "content": "Hai sayang, kalau kamu lagi capek atau ngerasa hari-harimu lagi berat, inget ya kalau aku selalu ada di sini buat dengerin dan nemenin kamu. Aku selalu bangga sama semua perjuangan kamu. Jangan lupa istirahat yang cukup ya!"
+    },
+    {
+      "title": "Untuk Senyummu",
+      "teaser": "Tentang senyum manis favoritku...",
+      "content": "Senyuman kamu tuh kayak mood booster instan buat aku, Aldza. Capek aku langsung ilang kalau liat kamu senyum lepas. Jadi, tolong sering-sering senyum ya, biar duniaku ikutan cerah!"
+    },
+    {
+      "title": "Sebuah Janji",
+      "teaser": "Janji kecil yang pengen aku tepati...",
+      "content": "Aku janji bakal selalu berusaha jadi tempat bersandar paling nyaman buat kamu. Tempat kamu bisa cerita apa aja, ketawa lepas, atau nangis tanpa perlu malu. Pokoknya, be yourself aja kalau sama aku."
+    },
+    {
+      "title": "Masa Depan",
+      "teaser": "Mimpi santai kita nanti...",
+      "content": "Lucu kali ya kalau bayangin beberapa tahun lagi kita masih santai bareng sore-sore sambil ngeteh dan ngetawain hal konyol berdua. Aku beneran pengen terus ngelewatin hari-hari seru sama kamu, Aldza. Gak mau sama yang lain."
+    }
+  ],
+  "reasons": [
+    "Aku suka banget liat muka antusias kamu tiap lagi cerita hal yang kamu senangi. Binar matamu tuh bikin adem dan nagih banget.",
+    "Sifat sabar dan perhatian kamu yang selalu bisa nenangin pikiran aku pas lagi stres atau capek kerja.",
+    "Kamu itu paket lengkap yang bikin hidup aku jadi jauh lebih seru. Rasanya tiap hari jadi lebih menyenangkan sejak ada kamu."
+  ],
+  "loveQuotes": [
+    "Gak butuh yang sempurna, yang penting itu kamu.",
+    "Makasih ya udah selalu jadi alasan aku buat pengen cepet pulang.",
+    "Bareng kamu, hal biasa aja rasanya jadi seru banget.",
+    "Aku gak tau masa depan kayak gimana, tapi aku tau aku pengen ada kamu di dalamnya.",
+    "Kamu tuh kayak kopi pagi, bikin hariku langsung siap dimulai.",
+    "Bahagia itu sederhana: ngeliat kamu senyum dan tau aku penyebabnya.",
+    "Cinta itu pas kita bisa receh bareng tanpa canggung.",
+    "Gak pernah bosen ngeliat kamu, heran deh kok bisa selucu itu.",
+    "Seharian gak ngabarin rasanya ada yang kurang banget.",
+    "Aku sayang kamu, kemarin, sekarang, dan besok-besok juga."
+  ],
+  "longLetter": {
+    "greeting": "Dear Aldza Salwatul Aisy, 🌸",
+    "paragraphs": [
+      "Selamat ulang tahun yang ke-20 ya, sayang. Hari ini spesial banget buat kamu, dan juga buat aku yang bersyukur banget semesta udah ngelahirin kamu ke dunia ini. Nemenin kamu berproses sampai sekarang adalah perjalanan paling berharga buat aku.",
+      "Lewat website sederhana ini, aku pengen nyimpen sedikit dari sekian banyak rasa sayang dan banggaku ke kamu. Umur 20 ini semoga jadi langkah awal buat impian-impian besar kita yang lebih indah ke depannya.",
+      "Makasih banyak ya udah jadi temen ngobrol paling asyik, pendengar yang sabar, dan mood booster-ku tiap hari. Makasih juga udah milih buat terus jalan bareng aku. Aku janji bakal selalu ada buat ngedukung mimpi-mimpi kamu.",
+      "Semoga di usia 20 ini kamu makin sehat, dilancarin semua urusannya, bahagia terus, dan didekatkan dengan semua hal baik. Inget ya, sesibuk atau seberat apa pun hari kamu nanti, aku bakal selalu jadi rumah yang siap menyambut kamu pulang.",
+      "Happy birthday, cintaku. Aku sayang kamu hari ini, besok, dan seterusnya. Yuk kita bareng-bareng terus sampai nanti! 💖"
+    ],
+    "closing": "Sayangkuu."
+  }
+}
