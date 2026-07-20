@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Love — Aldza</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1e 50%, #0a0a0a 100%);
+      overflow-x: hidden;
+      padding: 20px;
+    }
+
+    /* Floating hearts background */
+    .hearts-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .floating-heart {
+      position: absolute;
+      font-size: 20px;
+      opacity: 0.15;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
+      10% { opacity: 0.15; }
+      90% { opacity: 0.15; }
+      100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
+    }
+
+    .card-container {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .love-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(255, 120, 160, 0.3);
+      border-radius: 36px;
+      padding: 40px 36px;
+      text-align: center;
+      position: relative;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 
+        0 0 50px rgba(255, 105, 180, 0.15),
+        0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #ffb3c6;
+      margin-bottom: 6px;
+    }
+
+    .card-name {
+      font-size: 24px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3, #ffb3c6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 4px;
+    }
+
+    .card-subtitle {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 300;
+      margin-bottom: 24px;
+    }
+
+    /* Heart QR Area */
+    .qr-heart-container {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-background-heart {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      filter: drop-shadow(0 0 15px rgba(255, 117, 140, 0.4));
+    }
+
+    .qr-canvas-box {
+      position: relative;
+      z-index: 2;
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      clip-path: path("M 125 240 C 125 240 10 165 10 90 C 10 40 45 10 85 10 C 108 10 120 25 125 35 C 130 25 142 10 165 10 C 205 10 240 40 240 90 C 240 165 125 240 125 240 Z");
+      width: 250px;
+      height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #qrcode-canvas {
+      width: 220px;
+      height: 220px;
+    }
+
+    .scan-text {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 4px;
+    }
+
+    .scan-text span {
+      color: #ff8fab;
+      font-weight: 600;
+    }
+
+    .url-text {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.35);
+      font-weight: 300;
+    }
+
+    .heart-icon {
+      font-size: 24px;
+      display: inline-block;
+      animation: pulse 1.4s ease infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.25); }
+    }
+
+    .save-btn {
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      border: none;
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 14px 32px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(255, 117, 140, 0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .save-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(255, 117, 140, 0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hearts-bg" id="hearts-bg"></div>
+
+  <div class="card-container">
+    <div class="love-card" id="love-card">
+      <p class="card-title">✦ Spesial Untuk ✦</p>
+      <h1 class="card-name">Aldza Salwatul Aisy</h1>
+      <p class="card-subtitle">Scan QR Hati ini untuk membuka kejutan 🌸</p>
+
+      <div class="qr-heart-container">
+        <!-- SVG Heart Border Frame -->
+        <svg class="qr-background-heart" viewBox="0 0 260 260">
+          <defs>
+            <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff758c" />
+              <stop offset="50%" stop-color="#ff7eb3" />
+              <stop offset="100%" stop-color="#7928ca" />
+            </linearGradient>
+          </defs>
+          <path fill="none" stroke="url(#heartGrad)" stroke-width="4"
+            d="M 130 248 C 130 248 12 170 12 92 C 12 40 48 10 90 10 C 114 10 125 25 130 36 C 135 25 146 10 170 10 C 212 10 248 40 248 92 C 248 170 130 248 130 248 Z" />
+        </svg>
+
+        <!-- High-Contrast Scannable Heart-Clipped QR -->
+        <div class="qr-canvas-box">
+          <canvas id="qrcode-canvas"></canvas>
+        </div>
+      </div>
+
+      <p class="scan-text"><span class="heart-icon">💖</span> Scan QR untuk <span>Surprise</span></p>
+      <p class="url-text">aryapulosari-design.github.io/aldza-ulangtahun</p>
+    </div>
+
+    <button class="save-btn" onclick="saveAsImage()">💾 Simpan Gambar QR</button>
+  </div>
+
+  <!-- QR Code Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <script>
+    const targetUrl = "https://aryapulosari-design.github.io/aldza-ulangtahun/";
+    const canvas = document.getElementById("qrcode-canvas");
+    canvas.width = 440;
+    canvas.height = 440;
+    const ctx = canvas.getContext("2d");
+
+    // Hidden temporary container for QRCode.js generator
+    const tempDiv = document.createElement("div");
+
+    const qrcode = new QRCode(tempDiv, {
+      text: targetUrl,
+      width: 440,
+      height: 440,
+      colorDark: "#220022",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+    // Render custom styled QR Code onto canvas
+    setTimeout(() => {
+      const qrImg = tempDiv.querySelector("canvas") || tempDiv.querySelector("img");
+      if (qrImg) {
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, 440, 440);
+        ctx.drawImage(qrImg, 0, 0, 440, 440);
+
+        // Overlay a subtle pink heart gradient on QR modules while maintaining high scannability
+        ctx.globalCompositeOperation = "source-atop";
+        const grad = ctx.createLinearGradient(0, 0, 440, 440);
+        grad.addColorStop(0, "#d80058");
+        grad.addColorStop(0.5, "#900055");
+        grad.addColorStop(1, "#330033");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 440, 440);
+        ctx.globalCompositeOperation = "source-over";
+      }
+    }, 300);
+
+    // Floating background hearts
+    const heartsBg = document.getElementById("hearts-bg");
+    const emojis = ["💖", "💕", "🌸", "✨", "❤️"];
+    function addHeart() {
+      const h = document.createElement("div");
+      h.className = "floating-heart";
+      h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      h.style.left = Math.random() * 100 + "%";
+      h.style.animationDuration = (6 + Math.random() * 6) + "s";
+      heartsBg.appendChild(h);
+      setTimeout(() => h.remove(), 12000);
+    }
+    for(let i=0; i<15; i++) setTimeout(addHeart, i*250);
+    setInterval(addHeart, 1500);
+
+    // Save functionality
+    function saveAsImage() {
+      const card = document.getElementById("love-card");
+      html2canvas(card, {
+        backgroundColor: "#0a0a0a",
+        scale: 3
+      }).then(c => {
+        const a = document.createElement("a");
+        a.download = "QR-Love-Aldza.png";
+        a.href = c.toDataURL("image/png");
+        a.click();
+      });
+    }
+  </script>
+</body>
+</html>
