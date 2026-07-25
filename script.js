@@ -520,7 +520,7 @@ function triggerSurprise() {
 
   // Play ambient audio if possible (usually blocked until click, but Vercel logic is ready)
   const player = document.getElementById("music-player");
-  player.classList.add("playing");
+  if (player) player.classList.add("playing");
 
   // Start Fireworks and Confetti
   startFireworks();
@@ -531,8 +531,10 @@ function triggerSurprise() {
     overlay.classList.add("hidden-element");
     stopFireworks();
     // Play music once clicked
-    const audio = player.querySelector("audio");
-    if (audio) audio.play().catch(e => console.log("Audio play blocked: ", e));
+    if (player) {
+      const audio = player.querySelector("audio");
+      if (audio) audio.play().catch(e => console.log("Audio play blocked: ", e));
+    }
   });
 }
 
