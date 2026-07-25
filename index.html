@@ -20,7 +20,7 @@
     <div class="lock-content glass-card">
       <div class="lock-icon">🔐</div>
       <h2>Sabar ya, Sayang...</h2>
-      <p>Halaman ini masih dikunci. Balik lagi pas waktu udah menunjuk jam 00:00 WIB di tanggal 26 Juli ya! 🌸</p>
+      <p>Halaman ini masih dikunci. Balik lagi pas waktu udah menunjuk jam 16:59 WIB ya! 🌸</p>
       <div class="lock-countdown">
         <div class="time-block">
           <span id="lock-days">00</span><small>Hari</small>
@@ -77,8 +77,27 @@
           <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
         </svg>
       </button>
+      <!-- Hamburger Button (Mobile Only) -->
+      <button id="hamburger-btn" class="hamburger-btn" aria-label="Buka Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+    <nav class="mobile-menu-nav">
+      <a href="#home" class="mobile-nav-link">🏠 Beranda</a>
+      <a href="#timeline" class="mobile-nav-link">💫 Perjalanan</a>
+      <a href="#reasons" class="mobile-nav-link">💖 Alasanku Mencintaimu</a>
+      <a href="#gallery" class="mobile-nav-link">🖼️ Galeri</a>
+      <a href="#letters" class="mobile-nav-link">✉️ Surat</a>
+      <a href="#gift" class="mobile-nav-link">🎁 Hadiah</a>
+      <button id="mobile-game-trigger" class="mobile-nav-link mobile-game-btn">🎮 Main Game</button>
+    </nav>
+  </div>
+  <div id="mobile-menu-backdrop" class="mobile-menu-backdrop"></div>
+
 
   <!-- Section 1: Hero & Realtime Flip Countdown -->
   <section id="home" class="hero-section">
@@ -136,7 +155,7 @@
             <span class="flip-label">Detik</span>
           </div>
         </div>
-        <p class="timezone-note">Waktu dihitung berdasarkan zona waktu WIB (Jakarta)</p>
+        <p class="timezone-note">Website terbuka pukul 16:59 WIB — Waktu Indonesia Barat (Jakarta)</p>
       </div>
 
       <!-- Surprise Unlocked Section (Initially Hidden) -->

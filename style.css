@@ -426,6 +426,140 @@ a {
 }
 
 /* --- Header / Navigation Bar --- */
+/* --- Hamburger Button (Mobile Only) --- */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 8px;
+  transition: var(--transition-fast);
+}
+
+.hamburger-btn span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s, width 0.25s;
+  transform-origin: center;
+}
+
+.hamburger-btn.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger-btn.open span:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+.hamburger-btn.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile Menu Drawer */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: min(80vw, 300px);
+  height: 100vh;
+  background: var(--bg-secondary);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-left: 1px solid var(--glass-border);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 24px 40px;
+  transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: -10px 0 40px rgba(0,0,0,0.3);
+}
+
+.mobile-menu.open {
+  right: 0;
+}
+
+.mobile-menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: var(--transition-fast);
+  letter-spacing: 0.01em;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link:active {
+  color: var(--primary);
+  background: rgba(var(--primary-rgb), 0.08);
+}
+
+.mobile-game-btn {
+  margin-top: 16px;
+  background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.12), rgba(var(--secondary-rgb), 0.08));
+  color: var(--primary);
+  border: 1px solid rgba(var(--primary-rgb), 0.2) !important;
+}
+
+/* Backdrop */
+.mobile-menu-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(5, 4, 10, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.mobile-menu-backdrop.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Show hamburger only on mobile */
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: flex;
+  }
+  
+  /* Hide game text button from header on mobile (shown in menu drawer) */
+  #mini-game-trigger {
+    display: none;
+  }
+}
+
+
 .main-header {
   position: fixed;
   top: 24px;
@@ -1762,6 +1896,8 @@ kbd {
 }
 
 /* --- Responsive Adjustments --- */
+
+/* === Tablet (≤ 991px) === */
 @media (max-width: 991px) {
   .reasons-layout-wrapper {
     grid-template-columns: 1fr;
@@ -1771,84 +1907,498 @@ kbd {
   .gallery-masonry-grid {
     column-count: 2;
   }
+
+  .section {
+    padding: 80px 5vw;
+  }
 }
 
+/* === Mobile (≤ 768px) === */
 @media (max-width: 768px) {
   html {
     font-size: 15px;
   }
-  
+
+  /* -- Header -- */
   .main-header {
-    padding: 0 20px;
+    top: 12px;
+    padding: 0 16px;
+    height: 54px;
+    width: 94%;
   }
-  
+
   .main-nav {
-    display: none; /* Hide header menu links on small mobile, keep standard smooth scroll swipe */
+    display: none;
   }
-  
+
+  .header-actions {
+    gap: 6px;
+  }
+
+  /* "Game" text hidden, show only icon */
+  #mini-game-trigger {
+    font-size: 0;
+    padding: 0;
+    width: 36px;
+    height: 36px;
+  }
+  #mini-game-trigger::before {
+    content: '🎮';
+    font-size: 1.1rem;
+  }
+
+  /* -- Lock Screen -- */
+  .lock-content {
+    padding: 28px 20px;
+    max-width: 340px;
+  }
+
+  .lock-content h2 {
+    font-size: 1.6rem;
+  }
+
+  .lock-countdown {
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .lock-countdown .time-block {
+    min-width: 60px;
+    padding: 12px 10px;
+  }
+
+  .lock-countdown span {
+    font-size: 1.5rem;
+  }
+
+  /* -- Hero -- */
+  .hero-section {
+    padding: 100px 5vw 50px;
+  }
+
   .hero-title {
-    font-size: 2.8rem;
+    font-size: 2.4rem;
   }
-  
+
+  .typing {
+    font-size: 1rem;
+  }
+
+  /* -- Flip Countdown -- */
+  .countdown-container {
+    padding: 24px 16px;
+  }
+
+  .countdown-heading {
+    font-size: 1rem;
+    margin-bottom: 18px;
+  }
+
   .flip-clock {
     gap: 8px;
   }
-  
+
+  .flip-separator {
+    font-size: 1.5rem;
+    margin-top: -10px;
+  }
+
   .card-container {
-    width: 55px;
-    height: 65px;
+    width: 58px;
+    height: 68px;
   }
-  
+
   .card-face {
-    font-size: 1.7rem;
+    font-size: 1.8rem;
   }
-  
+
+  .flip-label {
+    font-size: 0.65rem;
+  }
+
+  /* -- Sections -- */
+  .section {
+    padding: 70px 4vw;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  /* -- Surprise Modal -- */
+  .surprise-modal {
+    padding: 28px 20px;
+  }
+
+  .surprise-modal h2 {
+    font-size: 1.6rem;
+  }
+
+  /* -- Timeline -- */
+  .timeline-navigation-btns {
+    top: -55px;
+    right: 10px;
+  }
+
+  .timeline-track {
+    padding: 16px;
+    gap: 20px;
+  }
+
+  .timeline-card {
+    flex: 0 0 290px;
+  }
+
+  /* -- Reasons Layout -- */
+  .love-meter-wrapper {
+    padding: 28px 20px;
+  }
+
+  .meter-ring {
+    width: 160px;
+    height: 160px;
+  }
+
+  .card-deck {
+    height: 220px;
+  }
+
+  .reason-content {
+    font-size: 1.2rem;
+  }
+
+  .reasons-controls {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* -- Gallery -- */
   .gallery-masonry-grid {
     column-count: 2;
-    column-gap: 16px;
+    column-gap: 14px;
   }
-  
+
   .gallery-item {
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
-  
-  .game-controls-mobile {
-    display: flex;
+
+  /* -- Envelopes -- */
+  .envelopes-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
   }
-  
+
+  /* -- Letter Modal -- */
+  .letter-paper {
+    padding: 28px 22px;
+  }
+
+  /* -- Gift Box -- */
+  .gift-box-stage {
+    width: 240px;
+    height: 240px;
+  }
+
+  /* -- Scroll Letter -- */
+  .scroll-paper {
+    padding: 36px 24px;
+  }
+
+  /* -- Ending / Footer -- */
+  .ending-section {
+    padding: 80px 4vw 60px;
+  }
+
+  .virtual-interaction-panel {
+    padding: 24px 18px;
+  }
+
+  .interaction-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .interaction-btn {
+    width: 100%;
+    max-width: 260px;
+  }
+
+  .quote-generator-panel {
+    padding: 24px 18px;
+  }
+
+  .quote-text {
+    font-size: 1.1rem;
+  }
+
+  /* -- Sound Toggle -- */
   .sound-toggle-btn {
     bottom: 16px;
     left: 16px;
   }
+
+  /* -- Game Controls -- */
+  .game-controls-mobile {
+    display: flex;
+  }
+
+  .game-board {
+    padding: 24px 16px;
+  }
+
+  .game-canvas-wrapper {
+    height: 280px;
+  }
 }
 
+/* === Small Mobile (≤ 480px) === */
 @media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+
+  /* -- Header -- */
+  .main-header {
+    width: 96%;
+    top: 10px;
+    padding: 0 14px;
+    height: 50px;
+  }
+
+  .logo-text {
+    font-size: 1.05rem;
+  }
+
+  /* -- Hero -- */
   .hero-title {
-    font-size: 2.2rem;
+    font-size: 2rem;
+    letter-spacing: -0.01em;
   }
-  
+
+  .hero-content {
+    padding: 0 4px;
+  }
+
+  /* -- Flip Countdown -- */
   .flip-clock {
-    gap: 4px;
+    gap: 5px;
   }
-  
+
+  .flip-separator {
+    font-size: 1.3rem;
+    margin-top: -8px;
+  }
+
   .card-container {
-    width: 45px;
-    height: 55px;
+    width: 50px;
+    height: 60px;
   }
-  
+
   .card-face {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
   }
-  
+
+  /* -- Section Headers -- */
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .section {
+    padding: 60px 4vw;
+  }
+
+  /* -- Timeline -- */
+  .timeline-card {
+    flex: 0 0 265px;
+  }
+
+  .timeline-img-placeholder, .timeline-img {
+    height: 180px;
+  }
+
+  /* -- Reasons -- */
+  .reasons-controls {
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .control-btn {
+    padding: 10px 18px;
+    font-size: 0.85rem;
+  }
+
+  .card-deck {
+    height: 200px;
+  }
+
+  .reason-content {
+    font-size: 1.1rem;
+  }
+
+  .reason-card {
+    padding: 24px 16px;
+  }
+
+  /* -- Gallery -- */
   .gallery-masonry-grid {
     column-count: 1;
   }
-  
-  .reasons-controls {
-    justify-content: center;
+
+  .gallery-item {
+    margin-bottom: 16px;
   }
-  
-  .timeline-card {
-    flex: 0 0 280px;
+
+  /* -- Envelopes -- */
+  .envelopes-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .envelope-wrapper {
+    height: 180px;
+  }
+
+  .envelope-emoji {
+    font-size: 2rem;
+  }
+
+  .envelope-front h3 {
+    font-size: 1rem;
+  }
+
+  /* -- Surprise Modal -- */
+  #unlocked-surprise h2 {
+    font-size: 2rem;
+  }
+
+  /* -- Gift Box -- */
+  .gift-box-stage {
+    width: 200px;
+    height: 200px;
+  }
+
+  .scroll-paper {
+    padding: 30px 16px;
+  }
+
+  .scroll-content h2 {
+    font-size: 1.5rem;
+  }
+
+  /* -- Letter Modal -- */
+  .letter-paper {
+    padding: 24px 16px;
+  }
+
+  .letter-paper-header h3 {
+    font-size: 1.3rem;
+  }
+
+  .letter-paper-body {
+    font-size: 0.95rem;
+  }
+
+  /* -- Ending -- */
+  .ending-section {
+    padding: 70px 4vw 50px;
+  }
+
+  .virtual-interaction-panel,
+  .quote-generator-panel {
+    padding: 20px 14px;
+  }
+
+  /* -- Game Board -- */
+  .game-board {
+    padding: 20px 14px;
+    width: 95%;
+  }
+
+  .game-board h2 {
+    font-size: 1.4rem;
+  }
+
+  .game-canvas-wrapper {
+    height: 250px;
+  }
+
+  .game-mobile-arrow {
+    width: 70px;
+    height: 56px;
+    font-size: 1.8rem;
+  }
+
+  /* -- Lightbox -- */
+  .lightbox-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .close-btn {
+    top: 16px;
+    right: 16px;
+  }
+
+  .left-arrow {
+    left: 10px;
+  }
+
+  .right-arrow {
+    right: 10px;
+  }
+
+  /* -- Flip separator hide on very small for space -- */
+  .flip-separator {
+    display: none;
+  }
+}
+
+/* === Extra Small Mobile (≤ 360px) === */
+@media (max-width: 360px) {
+  html {
+    font-size: 13px;
+  }
+
+  .main-header {
+    width: 98%;
+    padding: 0 10px;
+  }
+
+  .hero-title {
+    font-size: 1.8rem;
+  }
+
+  .card-container {
+    width: 44px;
+    height: 54px;
+  }
+
+  .card-face {
+    font-size: 1.3rem;
+  }
+
+  .countdown-container {
+    padding: 18px 10px;
+  }
+
+  .envelopes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .envelope-wrapper {
+    height: 160px;
+  }
+
+  .reasons-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .control-btn {
+    width: 100%;
+    text-align: center;
   }
 }

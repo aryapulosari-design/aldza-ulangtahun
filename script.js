@@ -8,7 +8,7 @@
 // Used if data.json fails to load (CORS block on file:/// or network errors)
 const FALLBACK_DATA = {
   "birthday": {
-    "targetISO": "2026-07-26T00:00:00+07:00",
+    "targetISO": "2026-07-25T16:59:00+07:00",
     "name": "Aldza Salwatul Aisy",
     "age": 20,
     "surpriseHeading": "Happy Birthday, Sayang! 🌸✨",
@@ -120,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupMouseGlow();
   setupClickParticles();
   setupScrollSpy();
+  setupHamburgerMenu();
 });
 
 // Fetch data.json or fallback
@@ -149,6 +150,68 @@ function initializeSections() {
   sfxManager.init();
   setupMiniGame();
   setupEasterEgg();
+}
+
+// --- SYSTEM: HAMBURGER MENU (MOBILE) ---
+function setupHamburgerMenu() {
+  const btn = document.getElementById("hamburger-btn");
+  const menu = document.getElementById("mobile-menu");
+  const backdrop = document.getElementById("mobile-menu-backdrop");
+  const mobileGameBtn = document.getElementById("mobile-game-trigger");
+  const miniGameBtn = document.getElementById("mini-game-trigger");
+  const mobileLinks = document.querySelectorAll(".mobile-nav-link[href]");
+
+  if (!btn || !menu || !backdrop) return;
+
+  function openMenu() {
+    menu.classList.add("open");
+    menu.setAttribute("aria-hidden", "false");
+    backdrop.classList.add("show");
+    btn.classList.add("open");
+    btn.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeMenu() {
+    menu.classList.remove("open");
+    menu.setAttribute("aria-hidden", "true");
+    backdrop.classList.remove("show");
+    btn.classList.remove("open");
+    btn.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
+
+  btn.addEventListener("click", () => {
+    const isOpen = menu.classList.contains("open");
+    isOpen ? closeMenu() : openMenu();
+  });
+
+  backdrop.addEventListener("click", closeMenu);
+
+  // Close menu when any nav link is clicked
+  mobileLinks.forEach(link => {
+    link.addEventListener("click", closeMenu);
+  });
+
+  // Mobile game button triggers the game overlay
+  if (mobileGameBtn) {
+    mobileGameBtn.addEventListener("click", () => {
+      closeMenu();
+      setTimeout(() => {
+        document.getElementById("game-overlay")?.classList.remove("hidden-element");
+      }, 350);
+    });
+  }
+
+  // Close on swipe right (touch gesture)
+  let touchStartX = 0;
+  menu.addEventListener("touchstart", (e) => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  menu.addEventListener("touchend", (e) => {
+    const diff = e.changedTouches[0].clientX - touchStartX;
+    if (diff > 60) closeMenu();
+  }, { passive: true });
 }
 
 // --- SYSTEM A: THEME MANAGER (DARK/LIGHT) ---
@@ -332,8 +395,9 @@ function setupCountdown() {
   setupTyping(typingTexts);
 
   function updateClock() {
-    const now = new Date();
-    const diff = targetDate - now;
+    // Gunakan UTC timestamp murni — targetDate sudah benar karena ISO string-nya +07:00
+    // Jadi diff ini selalu akurat WIB, berapapun timezone HP-nya
+    const diff = targetDate.getTime() - Date.now();
 
     // Check for dev mode in URL (?dev=true) to bypass lock
     const urlParams = new URLSearchParams(window.location.search);
