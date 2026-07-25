@@ -8,7 +8,7 @@
 // Used if data.json fails to load (CORS block on file:/// or network errors)
 const FALLBACK_DATA = {
   "birthday": {
-    "targetISO": "2026-07-25T16:59:00+07:00",
+    "targetISO": "2026-07-26T00:00:00+07:00",
     "name": "Aldza Salwatul Aisy",
     "age": 20,
     "surpriseHeading": "Happy Birthday, Sayang! 🌸✨",
